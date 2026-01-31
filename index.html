@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>موقع للرياضيات الصف العاشر</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a33;
+      --card2:#0f1730;
+      --text:#eaf0ff;
+      --muted:#b8c3e6;
+      --accent:#6ee7ff;
+      --accent2:#a78bfa;
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 18px 45px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Tahoma, Arial, sans-serif;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(110,231,255,.18), transparent 60%),
+        radial-gradient(800px 500px at 80% 25%, rgba(167,139,250,.18), transparent 55%),
+        linear-gradient(180deg, #070c18, var(--bg));
+      color:var(--text);
+      min-height:100vh;
+    }
+
+    .container{
+      width:min(1100px, 92vw);
+      margin:0 auto;
+      padding: 26px 0 70px;
+    }
+
+    header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding: 14px 0 10px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+
+    .logo{
+      width:46px;height:46px;border-radius:14px;
+      background: linear-gradient(135deg, rgba(110,231,255,.35), rgba(167,139,250,.35));
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 25px rgba(0,0,0,.25);
+      display:grid; place-items:center;
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+
+    h1{
+      margin:0;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .subtitle{
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .top-actions{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .btn{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 14px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      font-weight: 650;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); }
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(110,231,255,.18), rgba(167,139,250,.18));
+      border-color: rgba(110,231,255,.35);
+    }
+
+    .hero{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 16px;
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .hero h2{
+      margin: 0 0 10px;
+      font-size: 26px;
+    }
+    .hero p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .quick{
+      display:grid;
+      gap: 10px;
+      align-content:start;
+    }
+    .chip{
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      padding: 12px 12px;
+      border-radius: 14px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+    .chip b{ color: var(--accent); }
+    .chip small{ color: var(--muted); display:block; margin-top:3px; line-height:1.5; }
+
+    .section-title{
+      margin: 18px 0 10px;
+      font-size: 16px;
+      color: var(--text);
+      letter-spacing:.2px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .mini{
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .mini h3{ margin:0 0 6px; font-size: 15px; }
+    .mini p{ margin:0; color: var(--muted); line-height:1.7; font-size: 13px; }
+
+    .sources{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+    }
+    .source-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    footer{
+      margin-top: 20px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      text-align:center;
+    }
+
+    /* Modal */
+    .overlay{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding: 18px;
+      z-index: 999;
+    }
+    .overlay.show{ display:flex; }
+
+    .modal{
+      width: min(980px, 95vw);
+      max-height: 90vh;
+      overflow:hidden;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: linear-gradient(180deg, rgba(16,26,51,.98), rgba(15,23,48,.98));
+      box-shadow: 0 30px 90px rgba(0,0,0,.6);
+      display:grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .modal-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding: 14px 14px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+    }
+    .modal-header h3{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.2px;
+    }
+
+    .modal-header-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .close{
+      width:40px;height:40px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      cursor:pointer;
+      font-size: 18px;
+      display:grid; place-items:center;
+    }
+    .close:hover{ background: rgba(255,255,255,.10); }
+
+    .modal-body{
+      display:grid;
+      grid-template-columns: 340px 1fr;
+      min-height: 0;
+    }
+
+    .side{
+      border-left: 1px solid rgba(255,255,255,.10);
+      padding: 12px;
+      overflow:auto;
+    }
+
+    .content{
+      padding: 14px;
+      overflow:auto;
+    }
+
+    .search{
+      display:flex; gap:10px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      border-radius: 16px;
+      margin-bottom: 10px;
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      background: transparent;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .search input::placeholder{ color: rgba(255,255,255,.45); }
+
+    .unit{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      border-radius: 16px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+    }
+    .unit:hover{ transform: translateY(-1px); background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.20); }
+    .unit.active{
+      border-color: rgba(110,231,255,.35);
+      background: linear-gradient(135deg, rgba(110,231,255,.10), rgba(167,139,250,.10));
+    }
+    .unit h4{ margin:0 0 4px; font-size: 14px; }
+    .unit small{ color: var(--muted); line-height:1.5; display:block; }
+
+    .lesson{
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+    .lesson b{ color: var(--accent); }
+    .lesson p{ margin:6px 0 0; color: var(--muted); line-height:1.7; font-size: 13px; }
+
+    .pill{
+      display:inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .modal-body{ grid-template-columns: 1fr; }
+      .side{ border-left:none; border-bottom: 1px solid rgba(255,255,255,.10); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">10</div>
+        <div>
+          <h1>موقع للرياضيات الصف العاشر</h1>
+          <div class="subtitle">المنهاج الأردني • وحدات + دروس داخل “ادرس هنا” + روابط رسمية</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="btn primary" id="openStudy">ادرس هنا</button>
+
+        <!-- ✅ إضافة سراج -->
+        <a class="btn" href="https://siraj.moe.gov.jo/" target="_blank" rel="noopener noreferrer">
+          سراج (المساعد الذكي)
+        </a>
+
+        <button class="btn" id="openAbout">عن الموقع</button>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="card">
+        <h2>أهلًا 👋 جاهز تدرس رياضيات عاشر؟</h2>
+        <p>
+          اضغط <b>ادرس هنا</b> لتظهر نافذة منبثقة فيها وحدات الكتاب ودروسها.
+          وإذا احتجت مساعدة إضافية، استخدم <b>سراج</b> كمساعد ذكي.
+        </p>
+        <p style="margin-top:10px">
+          <span class="pill">✅ ملف واحد</span>
+          <span class="pill">✅ تصميم احترافي</span>
+          <span class="pill">✅ روابط منهاجي + سراج</span>
+        </p>
+      </div>
+
+      <div class="card quick">
+        <div class="chip">
+          <div>📌</div>
+          <div>
+            <b>كيف تستخدمه؟</b>
+            <small>افتح الموقع → اضغط “ادرس هنا” → اختَر وحدة → شوف الدروس.</small>
+          </div>
+        </div>
+        <div class="chip">
+          <div>🧠</div>
+          <div>
+            <b>سراج يساعدك</b>
+            <small>استخدمه لشرح المفاهيم وحل أسئلة تدريبية.</small>
+          </div>
+        </div>
+        <div class="chip">
+          <div>📚</div>
+          <div>
+            <b>كتب منهاجي</b>
+            <small>روابط مباشرة للفصل الأول والثاني.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="section-title">أقسام سريعة</div>
+    <section class="grid">
+      <div class="mini">
+        <h3>ملخصات</h3>
+        <p>أضف ملخص لكل درس داخل الوحدة.</p>
+      </div>
+      <div class="mini">
+        <h3>أمثلة محلولة</h3>
+        <p>ضع أمثلة قصيرة لكل درس للمراجعة.</p>
+      </div>
+      <div class="mini">
+        <h3>أسئلة تدريبية</h3>
+        <p>أضف أسئلة اختيار من متعدد أو صح/خطأ.</p>
+      </div>
+    </section>
+
+    <!-- ✅ إضافة “مصادر مفيدة” -->
+    <div class="section-title">مصادر مفيدة</div>
+    <section class="card sources">
+      <div style="color: var(--muted); line-height:1.8; font-size:14px;">
+        روابط تساعد الطالب بسرعة: كتب الطالب من “منهاجي” + منصة “سراج”.
+      </div>
+
+      <div class="source-row">
+        <a class="btn primary" href="https://minhaji.net/lesson/13007/" target="_blank" rel="noopener noreferrer">
+          كتاب الطالب — الفصل الأول (منهاجي)
+        </a>
+        <a class="btn primary" href="https://minhaji.net/lesson/23154/" target="_blank" rel="noopener noreferrer">
+          كتاب الطالب — الفصل الثاني (منهاجي)
+        </a>
+        <a class="btn" href="https://siraj.moe.gov.jo/" target="_blank" rel="noopener noreferrer">
+          الدخول إلى سراج
+        </a>
+      </div>
+    </section>
+
+    <footer>© موقع للرياضيات الصف العاشر — نسخة قابلة للتعديل</footer>
+  </div>
+
+  <!-- Modal: ادرس هنا -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" aria-label="ادرس هنا">
+      <div class="modal-header">
+        <h3>ادرس هنا — وحدات كتاب الرياضيات (عاشر)</h3>
+
+        <!-- ✅ زر سراج داخل رأس النافذة -->
+        <div class="modal-header-actions">
+          <a class="btn" href="https://siraj.moe.gov.jo/" target="_blank" rel="noopener noreferrer" style="padding:8px 12px;">
+            افتح سراج
+          </a>
+          <button class="close" id="closeModal" aria-label="إغلاق">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <aside class="side">
+          <div class="search">
+            <input id="searchUnits" type="text" placeholder="ابحث عن وحدة أو درس..." />
+          </div>
+          <div id="unitsList"></div>
+        </aside>
+
+        <main class="content">
+          <div id="unitContent">
+            <div class="lesson">
+              <b>اختر وحدة من القائمة 👈</b>
+              <p>ستظهر هنا الدروس والملخصات والأمثلة الخاصة بالوحدة المختارة.</p>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: عن الموقع -->
+  <div class="overlay" id="aboutOverlay" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal" aria-label="عن الموقع">
+      <div class="modal-header">
+        <h3>عن الموقع</h3>
+        <button class="close" id="closeAbout" aria-label="إغلاق">✕</button>
+      </div>
+      <div class="content" style="padding:16px; overflow:auto">
+        <div class="lesson">
+          <b>فكرة الموقع</b>
+          <p>
+            موقع بسيط لطلاب الصف العاشر (المنهاج الأردني) يعرض وحدات الكتاب داخل نافذة منبثقة بعنوان
+            <b>ادرس هنا</b>، مع روابط سريعة للكتب (منهاجي) ومنصة سراج.
+          </p>
+          <p class="pill">تعديل المحتوى: داخل متغير <b>BOOK_UNITS</b> في أسفل الصفحة.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*
+      ✅ عدّل الوحدات والدروس من هون
+      - غيّر العناوين (title)
+      - غيّر الوصف (desc)
+      - غيّر الدروس داخل lessons
+    */
+    const BOOK_UNITS = [
+      {
+        id: "u1",
+        title: "الوحدة 1: الجبر",
+        desc: "مهارات أساسية في الجبر والتعبيرات والمعادلات.",
+        lessons: [
+          { name: "الدرس 1: التعابير الجبرية", summary: "تبسيط التعابير + جمع وطرح الحدود المتشابهة.", examples: "مثال: (3x + 2x) = 5x" },
+          { name: "الدرس 2: المعادلات الخطية", summary: "حل معادلات من خطوة وخطوتين.", examples: "مثال: 2x + 3 = 11 → x = 4" },
+          { name: "الدرس 3: المتباينات", summary: "حل المتباينات وتمثيلها على خط الأعداد.", examples: "مثال: x - 2 ≥ 5 → x ≥ 7" }
+        ]
+      },
+      {
+        id: "u2",
+        title: "الوحدة 2: الهندسة",
+        desc: "الزوايا، المضلعات، والبرهان البسيط.",
+        lessons: [
+          { name: "الدرس 1: الزوايا والعلاقات بينها", summary: "زوايا متقابلة/متجاورة/متممة/متكاملة.", examples: "إذا كانت زاويتان متكاملتان: مجموعهما 180°" },
+          { name: "الدرس 2: المثلثات", summary: "مجموع زوايا المثلث + تصنيف المثلثات.", examples: "مجموع زوايا أي مثلث = 180°" },
+          { name: "الدرس 3: المضلعات", summary: "مجموع الزوايا الداخلية وكيفية حسابها.", examples: "مجموع الداخلية = (n-2)×180" }
+        ]
+      },
+      {
+        id: "u3",
+        title: "الوحدة 3: الإحصاء والاحتمالات",
+        desc: "قراءة البيانات، المقاييس، واحتمالات بسيطة.",
+        lessons: [
+          { name: "الدرس 1: التمثيل البياني", summary: "أعمدة/خطوط/دائري وقراءة النتائج.", examples: "حدد أعلى قيمة من الرسم البياني" },
+          { name: "الدرس 2: مقاييس النزعة المركزية", summary: "المتوسط/الوسيط/المنوال.", examples: "مثال: متوسط 2,4,6 = 4" },
+          { name: "الدرس 3: الاحتمال", summary: "احتمال حدث بسيط ومكمل الحدث.", examples: "P(مكمل) = 1 - P(الحدث)" }
+        ]
+      },
+      {
+        id: "u4",
+        title: "الوحدة 4: الدوال والتمثيل",
+        desc: "فهم الدالة، المجال والمدى، والتمثيل البياني.",
+        lessons: [
+          { name: "الدرس 1: مفهوم الدالة", summary: "العلاقة التي تربط مدخلات بمخرجات.", examples: "f(x)=2x → f(3)=6" },
+          { name: "الدرس 2: المجال والمدى", summary: "تحديد قيم x المسموحة وقيم y الناتجة.", examples: "في f(x)=1/(x-2) المجال: x≠2" },
+          { name: "الدرس 3: تمثيل الدوال", summary: "جداول قيم ورسم بياني مبسّط.", examples: "ارسم نقاط جدول القيم ثم صِلّها" }
+        ]
+      }
+    ];
+
+    const overlay = document.getElementById("overlay");
+    const openStudy = document.getElementById("openStudy");
+    const closeModal = document.getElementById("closeModal");
+    const unitsList = document.getElementById("unitsList");
+    const unitContent = document.getElementById("unitContent");
+    const searchUnits = document.getElementById("searchUnits");
+
+    const aboutOverlay = document.getElementById("aboutOverlay");
+    const openAbout = document.getElementById("openAbout");
+    const closeAbout = document.getElementById("closeAbout");
+
+    let activeUnitId = null;
+
+    function openModal() {
+      overlay.classList.add("show");
+      overlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      searchUnits.focus();
+    }
+
+    function closeModalFn() {
+      overlay.classList.remove("show");
+      overlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function openAboutFn(){
+      aboutOverlay.classList.add("show");
+      aboutOverlay.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+    function closeAboutFn(){
+      aboutOverlay.classList.remove("show");
+      aboutOverlay.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    function renderUnits(filterText = "") {
+      const q = filterText.trim().toLowerCase();
+      unitsList.innerHTML = "";
+
+      const filtered = BOOK_UNITS.filter(u => {
+        if (!q) return true;
+        const inTitle = u.title.toLowerCase().includes(q);
+        const inDesc  = u.desc.toLowerCase().includes(q);
+        const inLessons = u.lessons.some(l =>
+          l.name.toLowerCase().includes(q) || l.summary.toLowerCase().includes(q)
+        );
+        return inTitle || inDesc || inLessons;
+      });
+
+      filtered.forEach(unit => {
+        const div = document.createElement("div");
+        div.className = "unit" + (unit.id === activeUnitId ? " active" : "");
+        div.innerHTML = `
+          <h4>${unit.title}</h4>
+          <small>${unit.desc}</small>
+          <small style="margin-top:6px; opacity:.9">عدد الدروس: ${unit.lessons.length}</small>
+        `;
+        div.addEventListener("click", () => selectUnit(unit.id));
+        unitsList.appendChild(div);
+      });
+
+      if (filtered.length === 0) {
+        unitsList.innerHTML = `<div class="lesson"><b>لا توجد نتائج</b><p>جرّب كلمة بحث أخرى.</p></div>`;
+      }
+    }
+
+    function selectUnit(unitId) {
+      activeUnitId = unitId;
+      renderUnits(searchUnits.value);
+
+      const unit = BOOK_UNITS.find(u => u.id === unitId);
+      if (!unit) return;
+
+      unitContent.innerHTML = `
+        <div class="lesson">
+          <b>${unit.title}</b>
+          <p>${unit.desc}</p>
+          <span class="pill">نصيحة: أضف أمثلة وأسئلة لكل درس</span>
+        </div>
+      `;
+
+      unit.lessons.forEach((l, idx) => {
+        const box = document.createElement("div");
+        box.className = "lesson";
+        box.innerHTML = `
+          <b>${idx + 1}) ${l.name}</b>
+          <p><b>ملخص:</b> ${l.summary}</p>
+          <p><b>مثال سريع:</b> ${l.examples}</p>
+        `;
+        unitContent.appendChild(box);
+      });
+    }
+
+    // Events
+    openStudy.addEventListener("click", () => {
+      openModal();
+      if (!activeUnitId && BOOK_UNITS.length) {
+        activeUnitId = BOOK_UNITS[0].id;
+        renderUnits("");
+        selectUnit(activeUnitId);
+      } else {
+        renderUnits(searchUnits.value);
+      }
+    });
+
+    closeModal.addEventListener("click", closeModalFn);
+
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeModalFn();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (overlay.classList.contains("show")) closeModalFn();
+        if (aboutOverlay.classList.contains("show")) closeAboutFn();
+      }
+    });
+
+    searchUnits.addEventListener("input", (e) => {
+      renderUnits(e.target.value);
+    });
+
+    openAbout.addEventListener("click", openAboutFn);
+    closeAbout.addEventListener("click", closeAboutFn);
+    aboutOverlay.addEventListener("click", (e) => {
+      if (e.target === aboutOverlay) closeAboutFn();
+    });
+
+    // Initial render (for faster first open)
+    renderUnits("");
+  </script>
+</body>
+</html>
